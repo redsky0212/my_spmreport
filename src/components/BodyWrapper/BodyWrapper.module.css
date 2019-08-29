@@ -1,0 +1,8 @@
+.wrapper {
+        display: block;
+        content: '';
+        clear: both;
+        background: #f0f4f7;
+        width: 100%;
+}
+    
