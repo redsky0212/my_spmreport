@@ -18,8 +18,8 @@ class FooterContainer extends Component {
     render() {
         return (
             <footer>
-                <div class="copy">
-                    <div class="footer">Copyright &copy; 2019 By <strong>SKTelecom</strong> Co, Ltd. All Rights Reserved.</div>
+                <div className="copy">
+                    <div className="footer">Copyright &copy; 2019 By <strong>SKTelecom</strong> Co, Ltd. All Rights Reserved.</div>
                 </div>
             </footer>
         );

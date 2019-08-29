@@ -1,13 +1,13 @@
 import React from 'react'
-import styles from './BodyWrapper.module.css';
+import styles from './LayoutWrapper.module.css';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
 
-const BodyWrapper = ({children}) => (
+const LayoutWrapper = ({children}) => (
   <div className={cx('wrapper')}>{children}</div>
 );
   
-export default BodyWrapper
+export default LayoutWrapper
   

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+// SalesWrapper 컨테이너
+import SalesWrapper from 'components/body/SalesWrapper';
+
 const propTypes = {
     
 };
@@ -17,29 +20,9 @@ class SalesContainer extends Component {
 
     render() {
         return (
-            <div className='container'>
-                <div className='groupbox'>
-                    
-                </div>
-                <div className='chartArea'>
-                    <div className='left'>
-                        <div className='upper'>
-                            
-                        </div>
-                        <div className='downer'>
-                            
-                        </div>
-                    </div>
-                    <div className='right'>
-                        <div className='upper'>
-                            
-                        </div>
-                        <div className='downer'>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <SalesWrapper>
+                
+            </SalesWrapper>
         );
     }
 }

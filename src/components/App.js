@@ -2,24 +2,24 @@ import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 
 // 화면 layout 컨테이너 컴포넌트 불러오기
-import { TopContainer, SearchContainer, NaviContainer, FooterContainer } from '../containers/layout';
+import { TopContainer, SearchContainer, FooterContainer } from '../containers/layout';
 // router에 의해서 불러온 화면 컨테이너 컴포넌트 불러오기.
 import { SalesContainer } from '../containers/body';
-// BodyWrapper 컴포넌트 불러오기.
-import BodyWrapper from './BodyWrapper';  
+// Layout 컴포넌트 불러오기.
+import {LayoutWrapper, Navi} from './layout';  
 
 
 const App = () => {
   return (
-    <BodyWrapper>
+    <LayoutWrapper>
         <TopContainer />
         <SearchContainer />
-        <NaviContainer />
+        <Navi />
         <Switch>
             <Route exact path="/" component={SalesContainer} />
         </Switch>
         <FooterContainer />
-    </BodyWrapper>
+    </LayoutWrapper>
   );
 };
 
