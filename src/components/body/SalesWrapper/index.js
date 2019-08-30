@@ -9,14 +9,14 @@ const cx = classNames.bind(styles);
 
 
 
-const SalesWrapper = ({ topCountData }) => {
+const SalesWrapper = ({ topCountData, topCnt }) => {
     
     
 
     return (
         <div className='container'>
             <div className='groupbox'>
-                <CountGroupBox topCountData={topCountData} />
+                <CountGroupBox topCountData={topCountData} topCnt={topCnt} />
             </div>
             <div className='chartArea'>
                 <div className='left'>
