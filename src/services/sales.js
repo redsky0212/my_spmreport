@@ -20,6 +20,7 @@ const getTopCount = (org_d_code) => {
 };
 
 const getTrendChart = (param) => {
+    // {"trendGraphData":[{"org_d_code":"D1","gubun":"chg","cnt1":2,"cnt2":9,"cnt3":3,"cnt4":3,"cnt5":6,"cnt6":7,"cnt7":10,"cnt8":2,"cnt9":1,"cnt10":10,"cnt11":9,"cnt12":7,"xvalue":[2,9,3,3,6,7,10,2,1,10,9,7]},{"org_d_code":"D1","gubun":"mnp","cnt1":1,"cnt2":1,"cnt3":3,"cnt4":1,"cnt5":1,"cnt6":3,"cnt7":1,"cnt8":0,"cnt9":1,"cnt10":1,"cnt11":2,"cnt12":3,"xvalue":[1,1,3,1,1,3,1,0,1,1,2,3]},{"org_d_code":"D1","gubun":"new","cnt1":1,"cnt2":3,"cnt3":3,"cnt4":1,"cnt5":2,"cnt6":2,"cnt7":4,"cnt8":3,"cnt9":3,"cnt10":2,"cnt11":5,"cnt12":3,"xvalue":[1,3,3,1,2,2,4,3,3,2,5,3]}]}
     return http.get('/api/sales/getTrendGraph', param);
 };
 
