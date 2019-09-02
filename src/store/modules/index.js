@@ -1,1 +1,5 @@
-export { default as sales } from './sales';
+import sales from './sales';
+
+export {
+    sales
+};

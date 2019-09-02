@@ -7,15 +7,18 @@ import * as sales from 'services/sales';
 const initialState = Map({
     topCountData: Map({
 
-    })
+    }),
+    trendChartData:List([])
 
 });
 
 // 액션 타입
 const SET_TOP_COUNT = 'sales/SET_TOP_COUNT';
+const SET_TREND_CHART = 'sales/SET_TREND_CHART';
 
 // 액션 생성자(두번째 인자는 promise를 반환하는 함수)
 export const setTopCount = createAction(SET_TOP_COUNT, sales.getTopCount); // { org_d_code }
+export const setTrendChart = createAction(SET_TREND_CHART, sales.getTrendChart);    // {org_d_code, type, sale_type, nw_type }
 
 // 리듀서
 export default handleActions({
@@ -30,6 +33,12 @@ export default handleActions({
         onPending: (state, action) => state,
         onFailure: (state, action) => state
         */
+    }),
+    ...pender({
+        type: SET_TREND_CHART, 
+        onSuccess: (state, action) => {
+            return state.set('trendChartData', fromJS(action.payload.data.trendGraphData));
+        }
     })
 
 
