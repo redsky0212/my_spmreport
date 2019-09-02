@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 
 
 
-const SalesWrapper = ({ topCountData, trendChartOption }) => {
+const SalesWrapper = ({ topCountData, trendChartOption, dropdownData1 }) => {
     return (
         <div className='container'>
             <div className='groupbox'>
@@ -41,7 +41,7 @@ const SalesWrapper = ({ topCountData, trendChartOption }) => {
             <div className='chartArea'>
                 <div className='left'>
                     <div className='upper'>
-                        <TrendChart trendChartOption={trendChartOption} />
+                        <TrendChart trendChartOption={trendChartOption} dropdownData1={dropdownData1} />
                     </div>
                     <div className='downer'>
 

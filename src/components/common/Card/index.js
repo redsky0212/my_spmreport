@@ -33,16 +33,15 @@ $(this).children("a").addClass("on");
 $(this).closest(".sel_02").find("p").html($(this).children("a").html());
 });
 */
-    static HeaderRight = () => {
+    static HeaderRight = ({dropdownData1, dropdownData2}) => {
 
-        
+        const dropDown1 = dropdownData1? (<li><Dropdown data={dropdownData1} /></li>) : null;
+        const dropDown2 = dropdownData2? (<li><Dropdown data={dropdownData2} /></li>) : null;
 
         return (
         <div className="btnFarm">
             <ul className="btnFarmUL">
-                <li>
-                    <Dropdown />
-				</li>
+                {dropDown1}
                 <li>
                     <div className={cx('selectbox2', 'sel_03', 'card-sel_02')} >
                         <div className="select">

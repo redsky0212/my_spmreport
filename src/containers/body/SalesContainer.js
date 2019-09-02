@@ -22,6 +22,13 @@ class SalesContainer extends Component {
     constructor(props) {
         super(props);
 
+        this.dropDown1 = [
+            {value:'', text:'실적구분'},
+            {value:'5g', text:'5G'},
+            {value:'else', text:'else'},
+            {value:'total', text:'total'}
+        ];
+
         this.state = {
             trendChartOption: {
                     chart: { type: 'spline' },
@@ -88,6 +95,7 @@ class SalesContainer extends Component {
             <SalesWrapper 
                 topCountData={this.props.topCountData}
                 trendChartOption={this.state.trendChartOption}
+                dropdownData1={this.dropDown1}
             />
         );
     }
