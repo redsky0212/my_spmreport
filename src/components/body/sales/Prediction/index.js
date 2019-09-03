@@ -11,7 +11,7 @@ import * as utils from 'utils';
 
 const cx = classNames.bind(styles);
 
-const Prediction = ({ predictionData }) => {
+const Prediction = ({ predictionData, predictionGridData }) => {
 
   const colStyle1 = { width: 'auto' };
   const colStyle2 = { width: '20%' };
@@ -31,23 +31,13 @@ const Prediction = ({ predictionData }) => {
                 <col style={colStyle2} />
                 <col style={colStyle3} />
 							</colgroup>
-              <tbody>
-                <tr>
-                  <td>최인접 LG매장까지의 거리</td>
-                  <td>상위 0.2%</td>
-                  <td><span className="text_blue">+0.2건</span></td>
-                </tr>
-                <tr>
-                  <td>100m ~ 1,000m 이내 인접 거주인구 평균 통화량</td>
-                  <td>상위 0.1%</td>
-                  <td><span className="text_blue">+8.2건</span></td>
-                </tr>
-                <tr>
-                  <td>스타벅스까지의 거리</td>
-                  <td>상위 1.4%</td>
-                  <td><span className="text_blue">+6.7건</span></td>
-                </tr>
-              </tbody>
+                {predictionGridData.map((item, key) =>
+                  <tr key={key}>
+                    <td>{item.desc}</td>
+                    <td>{item.top}</td>
+                    <td><span className={item.cntType=='+'?'text_blue':'text_red'}>{item.cntType+''+item.cnt+'건'}</span></td>
+                  </tr>
+                )}
 						</table>
           </Card.Body>
         </Card>

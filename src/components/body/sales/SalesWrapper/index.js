@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 
 
 
-const SalesWrapper = ({ topCountData, trendChartOption, dropdown1, dropdown2, checkbox1, predictionData }) => {
+const SalesWrapper = ({ topCountData, trendChartOption, dropdown1, dropdown2, checkbox1, predictionData, predictionGridData }) => {
     return (
         <div className='container'>
             <div className='groupbox'>
@@ -50,7 +50,8 @@ const SalesWrapper = ({ topCountData, trendChartOption, dropdown1, dropdown2, ch
                     </div>
                     <div className='downer segmentDivder'>
                         <Prediction
-                            predictionData={predictionData} />
+                            predictionData={predictionData}
+                            predictionGridData={predictionGridData} />
                     </div>
                 </div>
                 <div className='right'>

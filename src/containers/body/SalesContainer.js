@@ -73,15 +73,20 @@ class SalesContainer extends Component {
                 { id: 8, name: 'sales_check', value: '2nd_dev', text: '2nd Device 포함', selected: false },
                 { id: 9, name: 'sales_check', value: 'tablet', text: 'Tablet 포함', selected: false },
                 { id: 10, name: 'sales_check', value: 'datashare', text: '데이터 쉐어링 포함', selected: false }
-            ]
+            ],
+            predictionGridData: []
         };
         
         this.processTrendChartData = this.processTrendChartData.bind(this);
+        this.processPredictionGridData = this.processPredictionGridData.bind(this);
     }
 
     componentDidMount() {
         this.fetchSalesData();
     }
+    //shouldComponentUpdate(nextProps, nextState) {
+    //    return this.props.predictionData !== nextProps.predictionData;
+    //}
     
 
     // Trend chart 관련 ---------------------------------------------------
@@ -182,6 +187,52 @@ class SalesContainer extends Component {
 
         this.setState({ checkbox1: nextData }, () => { this.loadTrendChart(); });
     };
+    // 입점매력도 관련------------------------------------------------------
+    // 그리드 데이터 가공
+    processPredictionGridData(){
+        let _orgData = this.props.predictionData.toJS();
+        let gridData = _orgData[0];
+        const newFeatureArr=[];
+        const newPredictionData=[];
+        const _minmax = {
+            min: 0,
+            max: 0,
+            absMax: 0
+        };
+        
+        for( let i=0; i<10; i++ ){
+            let featureItem = JSON.parse(gridData['feature_'+(i+1)].replace(/\'/gi, '\"'));
+            newFeatureArr.push(featureItem);
+            let val = parseFloat(featureItem[3]);
+            if( val < 0 && _minmax.min > val ){
+                _minmax.min = val;
+            }else if( val > 0 && _minmax.max < val ){
+                _minmax.max = val;
+            }
+            if( val < 0 && (_minmax.absMax < Math.abs(val)) ){
+                _minmax.absMax = Math.abs(val);
+            }else if( val > 0 && (_minmax.absMax < val) ){
+                _minmax.absMax = val;
+            }
+        }
+
+        newFeatureArr.sort((a,b) => {
+            if(a[3] < b[3]) return 1;
+            if(a[3] > b[3]) return -1;
+            return 0;
+        });
+
+        let _data = newFeatureArr.map(obj => {
+            return {
+                desc: obj[1],
+                top: '상위 '+parseFloat(obj[4]).toFixed(1)+'%',
+                cntType: parseFloat(obj[3]) < 0? '-':'+',
+                cnt: Math.abs(Math.round(parseFloat(obj[3])*10000)/10000).toFixed(1)
+            };
+        });
+
+        this.setState({ predictionGridData: _data });
+    }
     
 
     // api 데이터 호출 -----------------------------------------------------
@@ -192,11 +243,15 @@ class SalesContainer extends Component {
         //]);
         this.props.onSetTopCount('D1');
         this.loadTrendChart();
-        this.props.onSetPrediction('D1');
+        this.fetchPredictData('D1');
     }
     fetchTrendChartData = async (nw_type, type, sale_type) => {
         await this.props.onSetTrendChart({ params: { org_d_code: 'D1', type: type, sale_type: sale_type, nw_type: nw_type } });
         this.processTrendChartData();
+    };
+    fetchPredictData = async (org_d_code) => {
+        await this.props.onSetPrediction(org_d_code);
+        this.processPredictionGridData();
     };
 
     render() {
@@ -207,6 +262,7 @@ class SalesContainer extends Component {
                 dropdown1={<Dropdown data={this.state.dropDown1} onChange={this.dropdown1Change} />}
                 dropdown2={<Dropdown data={this.state.dropDown2} onChange={this.dropdown2Change} />}
                 checkbox1={<Checkbox data={this.state.checkbox1} onChange={this.checkbox1Change} />}
+                predictionGridData={this.state.predictionGridData}
                 predictionData={this.props.predictionData}
             />
         );
