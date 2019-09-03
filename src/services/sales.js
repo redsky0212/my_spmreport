@@ -41,7 +41,10 @@ const getSalesprediction = (org_d_code) => {
 
 const getSalesCustomer = (param) => {
     return http.get('/api/sales/getCustomerGraph', param);
-    
+    //return new Promise(function (resolve, reject) {
+        // radar response data
+    //    resolve({"data":{ "customerGraphData":{"dataValues":["13","4","53","34","9"],"category":["a","b","c","d","e"]}  }});
+    //});
 };
 
 export {

@@ -340,7 +340,7 @@ class SalesContainer extends Component {
         //     };
         // });
 
-        let _data = [{name: '', data: _orgData.dataValues, pointPlacement:'on'}];
+        let _data = [{name: 'test', data: _orgData.dataValues, pointPlacement:'on'}];
         let _xAxis = {
             categories: _orgData.category,
             tickmarkPlacement: 'on',

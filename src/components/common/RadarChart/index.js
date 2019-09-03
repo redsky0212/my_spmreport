@@ -3,8 +3,11 @@ import React from 'react'
 import styles from './RadarChart.module.css';
 import classNames from 'classnames/bind';
 import Highcharts from 'highcharts'
+import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsReact from 'highcharts-react-official'
   
+HighchartsMore(Highcharts);
+
 const cx = classNames.bind(styles);
 
 class RadarChart extends React.Component {
