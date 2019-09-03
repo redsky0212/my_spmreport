@@ -5,20 +5,22 @@ import {toJS} from 'immutable';
 
 // SalesWrapper 컨테이너
 import SalesWrapper from 'components/body/sales/SalesWrapper';
-import { setTopCount, setTrendChart, setPrediction } from 'store/modules/sales';
+import { setTopCount, setTrendChart, setPrediction, setCustomerChart } from 'store/modules/sales';
 import Dropdown from 'components/common/Dropdown';
 import Checkbox from 'components/common/Checkbox';
 
 const propTypes = {
     topCountData: PropTypes.object,
     trendChartData: PropTypes.object,
-    predictionData: PropTypes.object
+    predictionData: PropTypes.object,
+    customerChartData: PropTypes.object
 };
 
 const defaultProps = {
     topCountData: {},
     trendChartData: [],
-    predictionData: {}
+    predictionData: {},
+    customerChartData: []
 };
 
 class SalesContainer extends Component {
@@ -57,6 +59,44 @@ class SalesContainer extends Component {
                     series: [],
   
             },
+            customerChartOption: {
+                chart: {
+                    polar: true,
+                    type: 'line'
+                },
+                credits: { enabled: false },
+                accessibility: {
+                    description: ''
+                },
+                title: {
+                    text: '',
+                    x: -80
+                },
+                pane: {
+                    size: '80%'
+                },
+                xAxis: {
+                    categories: [],
+                    tickmarkPlacement: 'on',
+                    lineWidth: 0
+                },
+                yAxis: {
+                    gridLineInterpolation: 'polygon',
+                    lineWidth: 0,
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                tooltip: {
+                    shared: true,
+                    pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
+                },
+                legend: {
+                    enabled: false
+                },
+                series: []
+            },
             dropDown1: [
                 { id:0, value: '', text: '실적구분', selected: false },
                 { id:1, value: '5g', text: '5G', selected: false },
@@ -74,11 +114,18 @@ class SalesContainer extends Component {
                 { id: 9, name: 'sales_check', value: 'tablet', text: 'Tablet 포함', selected: false },
                 { id: 10, name: 'sales_check', value: 'datashare', text: '데이터 쉐어링 포함', selected: false }
             ],
-            predictionGridData: []
+            predictionGridData: [],
+            customerDropdown: [
+                { id: 11, value: 'm', text: '제조사', selected: true },
+                { id: 12, value: 'f', text: '요금제', selected: false },
+                { id: 13, value: 'p', text: 'poi', selected: false },
+                { id: 14, value: 'r', text: '거소지', selected: false }
+            ]
         };
         
         this.processTrendChartData = this.processTrendChartData.bind(this);
         this.processPredictionGridData = this.processPredictionGridData.bind(this);
+        this.processCustomerChartData = this.processCustomerChartData.bind(this);
     }
 
     componentDidMount() {
@@ -233,7 +280,59 @@ class SalesContainer extends Component {
 
         this.setState({ predictionGridData: _data });
     }
-    
+    // 고객/상권 특성 관련--------------------------------------------------
+    // selectbox change 이벤트
+    customerDropdownChange = (e) => {
+        const { customerDropdown } = this.state;
+        const id = e.currentTarget.getAttribute('index');
+        const index = customerDropdown.findIndex(item => item.id === parseInt(id, 10));
+        const selected = customerDropdown[index];
+        const nextData = customerDropdown.map(item => {
+            return {
+                ...item,
+                selected: false
+            };
+        });
+
+        nextData[index] = {
+            ...selected,
+            selected: true
+        };
+
+        this.setState({ customerDropdown: nextData }, () => {  });
+    };
+    // Customer chart 호출
+    loadCustomerChart = () => {
+        const { customerDropdown } = this.state;
+        const index = customerDropdown.findIndex(item => item.selected);
+        const selected = customerDropdown[index];
+
+        if (selected.value === '') {
+            alert('구분값을 선택 하세요.');
+        } else {
+            this.fetchCustomerChartData(selected.value);
+        }
+    };
+    // 고객 레이터 차트 데이터 가공
+    processCustomerChartData() {
+        let _orgData = this.props.customerChartData.toJS();
+        // let _data = _orgData.dataValues.map((obj, index) => {
+        //     return {
+        //         name: _orgData.category[index],
+        //         data: obj,
+        //         pointPlacement: 'on'
+        //     };
+        // });
+
+        let _data = [{name: '', data: _orgData.dataValues, pointPlacement:'on'}];
+        let _xAxis = {
+            categories: _orgData.category,
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        }; 
+
+        this.setState({ customerChartOption: { ...this.state.customerChartOption,  series: _data, xAxis: _xAxis } });
+    }
 
     // api 데이터 호출 -----------------------------------------------------
     fetchSalesData = () => {
@@ -244,6 +343,7 @@ class SalesContainer extends Component {
         this.props.onSetTopCount('D1');
         this.loadTrendChart();
         this.fetchPredictData('D1');
+        this.loadCustomerChart();
     }
     fetchTrendChartData = async (nw_type, type, sale_type) => {
         await this.props.onSetTrendChart({ params: { org_d_code: 'D1', type: type, sale_type: sale_type, nw_type: nw_type } });
@@ -252,6 +352,10 @@ class SalesContainer extends Component {
     fetchPredictData = async (org_d_code) => {
         await this.props.onSetPrediction(org_d_code);
         this.processPredictionGridData();
+    };
+    fetchCustomerChartData = async (type) => {
+        await this.props.onSetCustomerChart({ params: { org_d_code: 'D1', type: type } });
+        this.processCustomerChartData();
     };
 
     render() {
@@ -264,6 +368,8 @@ class SalesContainer extends Component {
                 checkbox1={<Checkbox data={this.state.checkbox1} onChange={this.checkbox1Change} />}
                 predictionGridData={this.state.predictionGridData}
                 predictionData={this.props.predictionData}
+                customerDropdown={<Dropdown data={this.state.customerDropdown} onChange={this.customerDropdownChange} />}
+                customerChartOption={this.state.customerChartOption}
             />
         );
     }
@@ -279,7 +385,8 @@ const mapStateToProps = (state) => {
     return {
         topCountData: state.sales.get('topCountData'),
         trendChartData: state.sales.get('trendChartData'),
-        predictionData: state.sales.get('predictionData')
+        predictionData: state.sales.get('predictionData'),
+        customerChartData: state.sales.get('customerChartData')
     };
 };
 /* 액션 생성자를 사용하여 액션을 생성하고,
@@ -289,6 +396,7 @@ const mapDispatchToProps = (dispatch) => ({
     onSetTopCount: (org_d_code) => dispatch(setTopCount(org_d_code)),
     onSetTrendChart: (params) => dispatch(setTrendChart(params)),
     onSetPrediction: (org_d_code) => dispatch(setPrediction(org_d_code)),
+    onSetCustomerChart: (params) => dispatch(setCustomerChart(params))
 });
 SalesContainer = connect(mapStateToProps, mapDispatchToProps)(SalesContainer);
 

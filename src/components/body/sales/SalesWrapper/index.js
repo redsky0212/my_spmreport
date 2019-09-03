@@ -5,12 +5,23 @@ import classNames from 'classnames/bind';
 import CountGroupBox from '../CountGroupBox';   // CountGroupBox 컨테이너
 import TrendChart from 'components/body/sales/TrendChart';
 import Prediction from 'components/body/sales/Prediction';
+import Customer from 'components/body/sales/Customer';
 
 const cx = classNames.bind(styles);
 
 
 
-const SalesWrapper = ({ topCountData, trendChartOption, dropdown1, dropdown2, checkbox1, predictionData, predictionGridData }) => {
+const SalesWrapper = ({ 
+    topCountData, 
+    trendChartOption, 
+    dropdown1, 
+    dropdown2, 
+    checkbox1, 
+    predictionData, 
+    predictionGridData, 
+    customerDropdown, 
+    customerChartOption 
+}) => {
     return (
         <div className='container'>
             <div className='groupbox'>
@@ -59,7 +70,9 @@ const SalesWrapper = ({ topCountData, trendChartOption, dropdown1, dropdown2, ch
 
                     </div>
                     <div className='downer'>
-
+                        <Customer
+                            dropdown1={customerDropdown}
+                            radarChartOption={customerChartOption} />
                     </div>
                 </div>
             </div>

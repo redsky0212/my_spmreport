@@ -39,9 +39,14 @@ const getSalesprediction = (org_d_code) => {
     //});
 };
 
+const getSalesCustomer = (param) => {
+    return http.get('/api/sales/getCustomerGraph', param);
+    
+};
 
 export {
     getTopCount,
     getTrendChart,
-    getSalesprediction
+    getSalesprediction,
+    getSalesCustomer
 };

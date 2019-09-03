@@ -19,7 +19,7 @@ const Prediction = ({ predictionData, predictionGridData }) => {
 
   return (
     <React.Fragment>
-      <div class="segmentDiv">
+      <div className="segmentDiv">
         <Card>
           <Card.Header desc={'입점 매력도 기반 판매량 예상'}>
             <Card.HeaderRight />
@@ -31,6 +31,7 @@ const Prediction = ({ predictionData, predictionGridData }) => {
                 <col style={colStyle2} />
                 <col style={colStyle3} />
 							</colgroup>
+              <tbody>
                 {predictionGridData.map((item, key) =>
                   <tr key={key}>
                     <td>{item.desc}</td>
@@ -38,6 +39,7 @@ const Prediction = ({ predictionData, predictionGridData }) => {
                     <td><span className={item.cntType=='+'?'text_blue':'text_red'}>{item.cntType+''+item.cnt+'건'}</span></td>
                   </tr>
                 )}
+              </tbody>
 						</table>
           </Card.Body>
         </Card>

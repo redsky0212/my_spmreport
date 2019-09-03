@@ -21,7 +21,7 @@ class Card extends Component{
         </div>
     );
     static Body = ({children}) => (
-        <div class="segmentBody">
+        <div className="segmentBody">
             {children}
 		</div>
     );
@@ -37,7 +37,7 @@ class Card extends Component{
         <div className="btnFarm">
             <ul className="btnFarmUL">
                 <li>{dropDown1}</li>
-                <li>{dropdown2}</li>
+                <li>{dropDown2}</li>
                 <li><button className="com_gray bgArrow">Coaching Tip</button></li>
 			</ul>
 		</div >)};

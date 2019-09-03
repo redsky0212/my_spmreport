@@ -13,41 +13,14 @@ class Chart extends React.Component {
 
       }
 
-      static SalesCheck01 = ()=>(
-        <div className="checkFarm">
-          <ul className="chkFarmUL">
-            <li>
-              <label className="check">
-                <input type="checkbox" name="" />
-                <span className="ico"></span>
-                <span className="txt f_bold">2nd Device 포함</span>
-							</label>
-            </li>
-            <li>
-              <label className="check">
-                <input type="checkbox" name="" />
-                <span className="ico"></span>
-                <span className="txt f_bold">Table 포함</span>
-							</label>
-            </li>
-            <li>
-              <label className="check">
-                <input type="checkbox" name="" />
-                <span className="ico"></span>
-                <span className="txt f_bold">데이터 쉐어링 포함</span>
-							</label>
-						</li>
-					</ul>
-				</div>
-      );
-  
       render() {
-        
+        const { chartoption } = this.props;
+        console.log(chartoption)
         return (
           <div className="segmentBody">
             {this.props.children}
             <div className={cx('chart-container')}>
-              <HighchartsReact highcharts={Highcharts} options={this.props.option} />
+              <HighchartsReact highcharts={Highcharts} options={chartoption} />
             </div>
           </div>
         );

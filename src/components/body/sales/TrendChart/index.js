@@ -21,7 +21,7 @@ const TrendChart = ({ trendChartOption, dropdown1, dropdown2, checkbox1 }) => {
           dropdown1={dropdown1}
           dropdown2={dropdown2} />
       </Card.Header>
-      <Chart charttype="salesTrend" option={trendChartOption}>
+      <Chart chartoption={trendChartOption}>
         {checkbox1}
       </Chart>
     </Card>
