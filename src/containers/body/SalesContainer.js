@@ -119,7 +119,7 @@ class SalesContainer extends Component {
                 { id: 11, value: 'm', text: '제조사', selected: true },
                 { id: 12, value: 'f', text: '요금제', selected: false },
                 { id: 13, value: 'p', text: 'poi', selected: false },
-                { id: 14, value: 'r', text: '거소지', selected: false }
+                { id: 14, value: 'h', text: '거소지', selected: false }
             ]
         };
         
@@ -299,7 +299,7 @@ class SalesContainer extends Component {
             selected: true
         };
 
-        this.setState({ customerDropdown: nextData }, () => {  });
+        this.setState({ customerDropdown: nextData }, () => { this.loadCustomerChart(); });
     };
     // Customer chart 호출
     loadCustomerChart = () => {

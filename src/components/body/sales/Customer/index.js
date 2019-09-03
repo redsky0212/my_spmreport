@@ -3,7 +3,7 @@ import styles from './Customer.module.css';
 import classNames from 'classnames/bind';
 
 import Card from 'components/common/Card';
-import Chart from 'components/common/Chart';
+import RadarChart from 'components/common/RadarChart';
 
 import * as utils from 'utils';
 
@@ -20,7 +20,7 @@ const Customer = ({ dropdown1, radarChartOption}) => {
         <Card.HeaderRight
           dropdown1={dropdown1} />
       </Card.Header>
-      <Chart chartoption={radarChartOption}></Chart>
+      <RadarChart chartoption={radarChartOption}></RadarChart>
     </Card>
   )
 };
