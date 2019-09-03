@@ -24,7 +24,8 @@ class SearchContainer extends Component {
             <div className="search_area">
                 <div className="search_box">
                     <input type="text" placeholder="매장명을 입력하세요." style={storeInput} />&nbsp;&nbsp;
-                    <input type="text" id="daily_start_date" placeholder="2019.07.10" className="calend mr10" autocomplete="off" style={calendarInput} />
+                    {/* <input type="text" id="daily_start_date" placeholder="2019.07.10" className="calend mr10" autocomplete="off" style={calendarInput} /> */}
+                    <input type="text" id="daily_start_date" placeholder="2019.07.10" className="calend mr10" style={calendarInput} />
                     <span>
                         <button className="com_gray mr3">경쟁매장비교</button>
                     </span>

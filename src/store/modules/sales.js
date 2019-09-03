@@ -5,20 +5,20 @@ import * as sales from 'services/sales';
 
 // 초기 sales 상태값를 정의합니다
 const initialState = Map({
-    topCountData: Map({
-
-    }),
-    trendChartData:List([])
-
+    topCountData: Map({}),
+    trendChartData:List([]),
+    predictionData:Map({})
 });
 
 // 액션 타입
 const SET_TOP_COUNT = 'sales/SET_TOP_COUNT';
 const SET_TREND_CHART = 'sales/SET_TREND_CHART';
+const SET_PREDICTION = 'sales/SET_PREDICTION';
 
 // 액션 생성자(두번째 인자는 promise를 반환하는 함수)
 export const setTopCount = createAction(SET_TOP_COUNT, sales.getTopCount); // { org_d_code }
 export const setTrendChart = createAction(SET_TREND_CHART, sales.getTrendChart);    // {org_d_code, type, sale_type, nw_type }
+export const setPrediction = createAction(SET_PREDICTION, sales.getSalesprediction); // { org_d_code }
 
 // 리듀서
 export default handleActions({
@@ -38,6 +38,12 @@ export default handleActions({
         type: SET_TREND_CHART, 
         onSuccess: (state, action) => {
             return state.set('trendChartData', fromJS(action.payload.data.trendGraphData));
+        }
+    }),
+    ...pender({
+        type: SET_PREDICTION,
+        onSuccess: (state, action) => {
+            return state.set('predictionData', fromJS(action.payload.data.salesPredictionData));
         }
     })
 

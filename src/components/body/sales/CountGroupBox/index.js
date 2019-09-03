@@ -14,7 +14,6 @@ const cx = classNames.bind(styles);
 
 const CountGroupBox = ({ cnt, rate, index, desc }) => {
 
-  
   return (
     <div className={`data${index}`}>
       <ul className="datanum">

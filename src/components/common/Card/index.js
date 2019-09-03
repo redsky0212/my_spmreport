@@ -20,43 +20,24 @@ class Card extends Component{
             {children}
         </div>
     );
+    static Body = ({children}) => (
+        <div class="segmentBody">
+            {children}
+		</div>
+    );
 
-/**
-* $(".sel_02").click(function() {
-$(this).find("div.mask_box2").toggle();
-});
-$(".sel_02 ul li").click(function() {
-var allOptions2 = $(this).parent().children("li");
 
-allOptions2.children("a").removeClass("on");
-$(this).children("a").addClass("on");
-$(this).closest(".sel_02").find("p").html($(this).children("a").html());
-});
-*/
-    static HeaderRight = ({dropdownData1, dropdownData2}) => {
 
-        const dropDown1 = dropdownData1? (<li><Dropdown data={dropdownData1} /></li>) : null;
-        const dropDown2 = dropdownData2? (<li><Dropdown data={dropdownData2} /></li>) : null;
+    static HeaderRight = ({ dropdown1, dropdown2}) => {
+
+        const dropDown1 = dropdown1 ? dropdown1 : null;
+        const dropDown2 = dropdown2 ? dropdown2 : null;
 
         return (
         <div className="btnFarm">
             <ul className="btnFarmUL">
-                {dropDown1}
-                <li>
-                    <div className={cx('selectbox2', 'sel_03', 'card-sel_02')} >
-                        <div className="select">
-                            <p className="tit" title="조회월"><span>기간구분</span></p>
-                            <div className="mask mask_box3">
-                                <div className="overcon" >
-                                    <ul className="con">
-                                        <li><a><span>2019년 02월</span></a></li>
-                                        <li><a><span>2019년 01월</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-					</div>
-				</li>
+                <li>{dropDown1}</li>
+                <li>{dropdown2}</li>
                 <li><button className="com_gray bgArrow">Coaching Tip</button></li>
 			</ul>
 		</div >)};

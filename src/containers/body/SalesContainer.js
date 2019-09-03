@@ -5,29 +5,26 @@ import {toJS} from 'immutable';
 
 // SalesWrapper 컨테이너
 import SalesWrapper from 'components/body/sales/SalesWrapper';
-import { setTopCount, setTrendChart } from 'store/modules/sales';
+import { setTopCount, setTrendChart, setPrediction } from 'store/modules/sales';
+import Dropdown from 'components/common/Dropdown';
+import Checkbox from 'components/common/Checkbox';
 
 const propTypes = {
     topCountData: PropTypes.object,
-    trendChartData: PropTypes.object
+    trendChartData: PropTypes.object,
+    predictionData: PropTypes.object
 };
 
 const defaultProps = {
     topCountData: {},
-    trendChartData: []
+    trendChartData: [],
+    predictionData: {}
 };
 
 class SalesContainer extends Component {
 
     constructor(props) {
         super(props);
-
-        this.dropDown1 = [
-            {value:'', text:'실적구분'},
-            {value:'5g', text:'5G'},
-            {value:'else', text:'else'},
-            {value:'total', text:'total'}
-        ];
 
         this.state = {
             trendChartOption: {
@@ -59,7 +56,24 @@ class SalesContainer extends Component {
                     },
                     series: [],
   
-            }
+            },
+            dropDown1: [
+                { id:0, value: '', text: '실적구분', selected: false },
+                { id:1, value: '5g', text: '5G', selected: false },
+                { id:2, value: 'else', text: 'else', selected: false },
+                { id:3, value: 'total', text: 'total', selected: true }
+            ],
+            dropDown2: [
+                { id: 4, value: '', text: '기간구분', selected: false },
+                { id: 5, value: 'd', text: '일 단위', selected: false },
+                { id: 6, value: 'w', text: '주 단위', selected: true },
+                { id: 7, value: 'm', text: '월 단위', selected: false }
+            ],
+            checkbox1: [
+                { id: 8, name: 'sales_check', value: '2nd_dev', text: '2nd Device 포함', selected: false },
+                { id: 9, name: 'sales_check', value: 'tablet', text: 'Tablet 포함', selected: false },
+                { id: 10, name: 'sales_check', value: 'datashare', text: '데이터 쉐어링 포함', selected: false }
+            ]
         };
         
         this.processTrendChartData = this.processTrendChartData.bind(this);
@@ -68,7 +82,25 @@ class SalesContainer extends Component {
     componentDidMount() {
         this.fetchSalesData();
     }
+    
 
+    // Trend chart 관련 ---------------------------------------------------
+    // Trend chart 호출
+    loadTrendChart = () => {
+        const { dropDown1, dropDown2, checkbox1 } = this.state;
+        const index1 = dropDown1.findIndex(item => item.selected);
+        const selected1 = dropDown1[index1];
+        const index2 = dropDown2.findIndex(item => item.selected);
+        const selected2 = dropDown2[index2];
+        const checkIdx = checkbox1.findIndex(item => item.selected);
+        const selectedCheck = checkIdx === -1? null:checkbox1[checkIdx];
+        
+        if (selected1.value === '' || selected2.value === '') {
+            alert('실적구분, 기간구분을 선택 하세요.');
+        }else{
+            this.fetchTrendChartData(selected1.value, selected2.value, selectedCheck?selectedCheck.value:'');
+        }
+    };
     // Trend chart 데이터 가공
     processTrendChartData(){
         let _orgData = this.props.trendChartData.toJS();
@@ -82,20 +114,100 @@ class SalesContainer extends Component {
         this.setState({ trendChartOption: { ...this.state.trendChartOption, series:_data}});
     }
 
-    fetchSalesData = async () => {
-        await Promise.all([
-            this.props.onSetTopCount('D1'),
-            this.props.onSetTrendChart({ params: { org_d_code: 'D1', type: 'w', sale_type: ['handset'], nw_type: 'total' } })
-        ]);
-        this.processTrendChartData();
+    // Dropdown1(실적구분) 관련--------------------------------------------
+    // selectbox change이벤트
+    dropdown1Change = (e) => {
+        const { dropDown1 } = this.state;
+        const id = e.currentTarget.getAttribute('index');
+        const index = dropDown1.findIndex(item => item.id === parseInt(id,10));
+        const selected = dropDown1[index];
+        const nextData = dropDown1.map(item=>{
+            return {
+                ...item,
+                selected:false
+            };
+        });
+        
+        nextData[index] = {
+            ...selected,
+            selected: true
+        };
+
+        this.setState({ dropDown1: nextData }, () => { this.loadTrendChart(); });
+    };
+    // Dropdown2(기간구분) 관련--------------------------------------------
+    // selectbox change이벤트
+    dropdown2Change = (e) => {
+        const { dropDown2 } = this.state;
+        const id = e.currentTarget.getAttribute('index');
+        const index = dropDown2.findIndex(item => item.id === parseInt(id, 10));
+        const selected = dropDown2[index];
+        const nextData = dropDown2.map(item => {
+            return {
+                ...item,
+                selected: false
+            };
+        });
+
+        nextData[index] = {
+            ...selected,
+            selected: true
+        };
+
+        this.setState({ dropDown2: nextData }, () => { this.loadTrendChart(); });
+    };
+    // checkbox1(포함 체크박스) 관련--------------------------------------------
+    // checkbox1 change이벤트
+    checkbox1Change = (e) => {
+        
+        const { checkbox1 } = this.state;
+        const id = e.currentTarget.parentElement.parentElement.getAttribute('index');
+        const index = checkbox1.findIndex(item => item.id === parseInt(id, 10));
+        const selected = checkbox1[index];
+        const nextData = checkbox1.map(item => {
+            return {
+                ...item,
+                selected: false
+            };
+        });
+        
+        if (selected.selected === true ){
+            e.currentTarget.checked = false;
+        }else{
+            nextData[index] = {
+                ...selected,
+                selected: true
+            };
+        }
+
+        this.setState({ checkbox1: nextData }, () => { this.loadTrendChart(); });
+    };
+    
+
+    // api 데이터 호출 -----------------------------------------------------
+    fetchSalesData = () => {
+        //await Promise.all([
+            //this.props.onSetTopCount('D1'),
+            //this.props.onSetTrendChart({ params: { org_d_code: 'D1', type: 'w', sale_type: ['handset'], nw_type: 'total' } })
+        //]);
+        this.props.onSetTopCount('D1');
+        this.loadTrendChart();
+        this.props.onSetPrediction('D1');
     }
+    fetchTrendChartData = async (nw_type, type, sale_type) => {
+        await this.props.onSetTrendChart({ params: { org_d_code: 'D1', type: type, sale_type: sale_type, nw_type: nw_type } });
+        this.processTrendChartData();
+    };
 
     render() {
         return (
             <SalesWrapper 
                 topCountData={this.props.topCountData}
                 trendChartOption={this.state.trendChartOption}
-                dropdownData1={this.dropDown1}
+                dropdown1={<Dropdown data={this.state.dropDown1} onChange={this.dropdown1Change} />}
+                dropdown2={<Dropdown data={this.state.dropDown2} onChange={this.dropdown2Change} />}
+                checkbox1={<Checkbox data={this.state.checkbox1} onChange={this.checkbox1Change} />}
+                predictionData={this.props.predictionData}
             />
         );
     }
@@ -110,7 +222,8 @@ SalesContainer.defaultProps = defaultProps;
 const mapStateToProps = (state) => {
     return {
         topCountData: state.sales.get('topCountData'),
-        trendChartData: state.sales.get('trendChartData')
+        trendChartData: state.sales.get('trendChartData'),
+        predictionData: state.sales.get('predictionData')
     };
 };
 /* 액션 생성자를 사용하여 액션을 생성하고,
@@ -118,7 +231,8 @@ const mapStateToProps = (state) => {
 */
 const mapDispatchToProps = (dispatch) => ({
     onSetTopCount: (org_d_code) => dispatch(setTopCount(org_d_code)),
-    onSetTrendChart: (params) => dispatch(setTrendChart(params))
+    onSetTrendChart: (params) => dispatch(setTrendChart(params)),
+    onSetPrediction: (org_d_code) => dispatch(setPrediction(org_d_code)),
 });
 SalesContainer = connect(mapStateToProps, mapDispatchToProps)(SalesContainer);
 

@@ -11,16 +11,18 @@ import * as utils from 'utils';
 
 const cx = classNames.bind(styles);
 
-const TrendChart = ({ trendChartOption, dropdownData1 }) => {
+const TrendChart = ({ trendChartOption, dropdown1, dropdown2, checkbox1 }) => {
 
 
   return (
     <Card>
       <Card.Header desc={'실적 트렌드 그래프'}>
-        <Card.HeaderRight dropdownData1={dropdownData1}></Card.HeaderRight>
+        <Card.HeaderRight 
+          dropdown1={dropdown1}
+          dropdown2={dropdown2} />
       </Card.Header>
       <Chart charttype="salesTrend" option={trendChartOption}>
-        <Chart.SalesCheck01 />
+        {checkbox1}
       </Chart>
     </Card>
   )
