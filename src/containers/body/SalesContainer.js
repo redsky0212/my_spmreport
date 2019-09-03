@@ -95,7 +95,23 @@ class SalesContainer extends Component {
                 legend: {
                     enabled: false
                 },
-                series: []
+                series: [],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            },
+                            pane: {
+                                size: '70%'
+                            }
+                        }
+                    }]
+                }
             },
             dropDown1: [
                 { id:0, value: '', text: '실적구분', selected: false },
