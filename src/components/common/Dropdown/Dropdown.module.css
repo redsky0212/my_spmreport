@@ -1,5 +1,8 @@
 .Dropdown-sel_01{
-        width:120px;z-index:1;cursor:pointer;
+        width:120px;z-index:800;cursor:pointer;
+}
+.Dropdown-sel_02{
+        width:90px;z-index:1;cursor:pointer;
 }
 .Dropdown-sel_item{
         display:block;

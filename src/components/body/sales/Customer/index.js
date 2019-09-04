@@ -20,7 +20,7 @@ const Customer = ({ dropdown1, radarChartOption, customerMapData, customerType})
         <Card.HeaderRight
           dropdown1={dropdown1} />
       </Card.Header>
-      <RadarChart chartoption={radarChartOption} customerMapData={customerMapData} customerType={customerType}></RadarChart>
+      <RadarChart chartoption={radarChartOption} customerMapData={customerMapData} customerType={customerType} id="salesTmapContainer"></RadarChart>
     </Card>
   )
 };

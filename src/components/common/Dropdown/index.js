@@ -35,7 +35,7 @@ class Dropdown extends React.Component {
     const mask_box2 = {width:'148px', height:'130px'};
     
     return (
-      <div className={cx('selectbox2', 'Dropdown-sel_01')} onClick={this.onSelToggle}>
+      <div className={cx('selectbox2', this.props.styletype === 2 ? 'Dropdown-sel_02' : 'Dropdown-sel_01')} onClick={this.onSelToggle}>
         <div className="select">
           <p className="tit" title="조회월">{this.props.data.map((item, key) => item.selected ? <span value={item.value}>{item.text}</span> : '')}</p>
           <div className="mask" style={mask_box2} ref={(sel) => { this.sel01 = sel; }}>
