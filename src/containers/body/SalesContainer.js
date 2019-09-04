@@ -5,7 +5,7 @@ import {toJS} from 'immutable';
 
 // SalesWrapper 컨테이너
 import SalesWrapper from 'components/body/sales/SalesWrapper';
-import { setTopCount, setTrendChart, setPrediction, setCustomerChart } from 'store/modules/sales';
+import { setTopCount, setTrendChart, setPrediction, setCustomerChart, setCustomerMap } from 'store/modules/sales';
 import Dropdown from 'components/common/Dropdown';
 import Checkbox from 'components/common/Checkbox';
 
@@ -13,21 +13,23 @@ const propTypes = {
     topCountData: PropTypes.object,
     trendChartData: PropTypes.object,
     predictionData: PropTypes.object,
-    customerChartData: PropTypes.object
+    customerChartData: PropTypes.object,
+    customerMapData: PropTypes.object
 };
 
 const defaultProps = {
     topCountData: {},
     trendChartData: [],
     predictionData: {},
-    customerChartData: []
+    customerChartData: {},
+    customerMapData: []
 };
 
 class SalesContainer extends Component {
 
     constructor(props) {
         super(props);
-
+        this.customerSelectType = 'm';
         this.state = {
             trendChartOption: {
                     chart: { type: 'spline' },
@@ -136,12 +138,14 @@ class SalesContainer extends Component {
                 { id: 12, value: 'f', text: '요금제', selected: false },
                 { id: 13, value: 'p', text: 'poi', selected: false },
                 { id: 14, value: 'h', text: '거소지', selected: false }
-            ]
+            ],
+            customerMapData:[]
         };
         
         this.processTrendChartData = this.processTrendChartData.bind(this);
         this.processPredictionGridData = this.processPredictionGridData.bind(this);
         this.processCustomerChartData = this.processCustomerChartData.bind(this);
+        this.processCustomerMapData = this.processCustomerMapData.bind(this);
     }
 
     componentDidMount() {
@@ -315,7 +319,9 @@ class SalesContainer extends Component {
             selected: true
         };
 
-        this.setState({ customerDropdown: nextData }, () => { this.loadCustomerChart(); });
+        this.setState({ customerDropdown: nextData }, () => { 
+            this.loadCustomerChart(); 
+        });
     };
     // Customer chart 호출
     loadCustomerChart = () => {
@@ -325,29 +331,36 @@ class SalesContainer extends Component {
 
         if (selected.value === '') {
             alert('구분값을 선택 하세요.');
+        } else if (selected.value === 'h' ){
+            this.fetchCustomerMapData(selected.value);
         } else {
             this.fetchCustomerChartData(selected.value);
         }
     };
     // 고객 레이터 차트 데이터 가공
-    processCustomerChartData() {
+    processCustomerChartData(type) {
         let _orgData = this.props.customerChartData.toJS();
-        // let _data = _orgData.dataValues.map((obj, index) => {
-        //     return {
-        //         name: _orgData.category[index],
-        //         data: obj,
-        //         pointPlacement: 'on'
-        //     };
-        // });
-
         let _data = [{name: 'test', data: _orgData.dataValues, pointPlacement:'on'}];
         let _xAxis = {
             categories: _orgData.category,
             tickmarkPlacement: 'on',
             lineWidth: 0
         }; 
-
+        this.customerSelectType = type;
         this.setState({ customerChartOption: { ...this.state.customerChartOption,  series: _data, xAxis: _xAxis } });
+        
+    }
+    // 고객 지도 데이터 가공
+    processCustomerMapData(type) {
+        let _orgData = this.props.customerMapData.toJS();
+
+        this.customerSelectType = type;
+
+        // 거소지
+        
+
+        this.setState({ customerMapData: _orgData });
+        
     }
 
     // api 데이터 호출 -----------------------------------------------------
@@ -371,7 +384,11 @@ class SalesContainer extends Component {
     };
     fetchCustomerChartData = async (type) => {
         await this.props.onSetCustomerChart({ params: { org_d_code: 'D1', type: type } });
-        this.processCustomerChartData();
+        this.processCustomerChartData(type);
+    };
+    fetchCustomerMapData = async (type) => {
+        await this.props.onSetCustomerMap({ params: { org_d_code: 'D1', type: type } });
+        this.processCustomerMapData(type);
     };
 
     render() {
@@ -384,8 +401,10 @@ class SalesContainer extends Component {
                 checkbox1={<Checkbox data={this.state.checkbox1} onChange={this.checkbox1Change} />}
                 predictionGridData={this.state.predictionGridData}
                 predictionData={this.props.predictionData}
+                customerType={this.customerSelectType}
                 customerDropdown={<Dropdown data={this.state.customerDropdown} onChange={this.customerDropdownChange} />}
                 customerChartOption={this.state.customerChartOption}
+                customerMapData={this.state.customerMapData}
             />
         );
     }
@@ -402,7 +421,8 @@ const mapStateToProps = (state) => {
         topCountData: state.sales.get('topCountData'),
         trendChartData: state.sales.get('trendChartData'),
         predictionData: state.sales.get('predictionData'),
-        customerChartData: state.sales.get('customerChartData')
+        customerChartData: state.sales.get('customerChartData'),
+        customerMapData: state.sales.get('customerMapData')
     };
 };
 /* 액션 생성자를 사용하여 액션을 생성하고,
@@ -412,7 +432,8 @@ const mapDispatchToProps = (dispatch) => ({
     onSetTopCount: (org_d_code) => dispatch(setTopCount(org_d_code)),
     onSetTrendChart: (params) => dispatch(setTrendChart(params)),
     onSetPrediction: (org_d_code) => dispatch(setPrediction(org_d_code)),
-    onSetCustomerChart: (params) => dispatch(setCustomerChart(params))
+    onSetCustomerChart: (params) => dispatch(setCustomerChart(params)),
+    onSetCustomerMap: (params) => dispatch(setCustomerMap(params))
 });
 SalesContainer = connect(mapStateToProps, mapDispatchToProps)(SalesContainer);
 

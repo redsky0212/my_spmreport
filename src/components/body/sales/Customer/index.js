@@ -11,7 +11,7 @@ import * as utils from 'utils';
 
 const cx = classNames.bind(styles);
 
-const Customer = ({ dropdown1, radarChartOption}) => {
+const Customer = ({ dropdown1, radarChartOption, customerMapData, customerType}) => {
 
 
   return (
@@ -20,7 +20,7 @@ const Customer = ({ dropdown1, radarChartOption}) => {
         <Card.HeaderRight
           dropdown1={dropdown1} />
       </Card.Header>
-      <RadarChart chartoption={radarChartOption}></RadarChart>
+      <RadarChart chartoption={radarChartOption} customerMapData={customerMapData} customerType={customerType}></RadarChart>
     </Card>
   )
 };

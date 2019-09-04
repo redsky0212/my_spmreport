@@ -20,7 +20,9 @@ const SalesWrapper = ({
     predictionData, 
     predictionGridData, 
     customerDropdown, 
-    customerChartOption 
+    customerChartOption,
+    customerMapData,
+    customerType
 }) => {
     return (
         <div className='container'>
@@ -72,7 +74,9 @@ const SalesWrapper = ({
                     <div className='downer'>
                         <Customer
                             dropdown1={customerDropdown}
-                            radarChartOption={customerChartOption} />
+                            radarChartOption={customerChartOption}
+                            customerMapData={customerMapData}
+                            customerType={customerType} />
                     </div>
                 </div>
             </div>

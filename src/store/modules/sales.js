@@ -8,7 +8,8 @@ const initialState = Map({
     topCountData: Map({}),
     trendChartData:List([]),
     predictionData:Map({}),
-    customerChartData:List([])
+    customerChartData:Map([]),
+    customerMapData: List([])
 });
 
 // 액션 타입
@@ -16,12 +17,14 @@ const SET_TOP_COUNT = 'sales/SET_TOP_COUNT';
 const SET_TREND_CHART = 'sales/SET_TREND_CHART';
 const SET_PREDICTION = 'sales/SET_PREDICTION';
 const SET_CUSTOMER_CHART = 'sales/SET_CUSTOMER_CHART';
+const SET_CUSTOMER_MAP = 'sales/SET_CUSTOMER_MAP';
 
 // 액션 생성자(두번째 인자는 promise를 반환하는 함수)
 export const setTopCount = createAction(SET_TOP_COUNT, sales.getTopCount); // { org_d_code }
 export const setTrendChart = createAction(SET_TREND_CHART, sales.getTrendChart);    // {org_d_code, type, sale_type, nw_type }
 export const setPrediction = createAction(SET_PREDICTION, sales.getSalesprediction); // { org_d_code }
-export const setCustomerChart = createAction(SET_CUSTOMER_CHART, sales.getSalesCustomer);    // {org_d_code, type, sale_type, nw_type }
+export const setCustomerChart = createAction(SET_CUSTOMER_CHART, sales.getSalesCustomer);    // {org_d_code, type }
+export const setCustomerMap = createAction(SET_CUSTOMER_MAP, sales.getSalesCustomer);    // {org_d_code, type } 
 
 // 리듀서
 export default handleActions({
@@ -53,6 +56,12 @@ export default handleActions({
         type: SET_CUSTOMER_CHART,
         onSuccess: (state, action) => {
             return state.set('customerChartData', fromJS(action.payload.data.customerGraphData));
+        }
+    }),
+    ...pender({
+        type: SET_CUSTOMER_MAP,
+        onSuccess: (state, action) => {
+            return state.set('customerMapData', fromJS(action.payload.data.customerGraphData));
         }
     }),
 
