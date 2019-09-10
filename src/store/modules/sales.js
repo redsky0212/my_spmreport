@@ -52,7 +52,7 @@ export default handleActions({
     ...pender({
         type: SET_PREDICTION,
         onSuccess: (state, action) => {
-            return state.set('predictionData', fromJS(action.payload.data.salesPredictionData));
+            return state.set('predictionData', fromJS(action.payload.data));
         }
     }),
     ...pender({

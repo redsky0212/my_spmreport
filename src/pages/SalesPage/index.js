@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './SalesPage.module.css';
 import classNames from 'classnames/bind';
 
-import { CountBoxContainer, TrendChartContainer, TypeStatisticsContainer } from 'containers/body/sales';
+import { CountBoxContainer, TrendChartContainer, PredictionSalesContainer, TypeStatisticsContainer } from 'containers/body/sales';
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +21,7 @@ const SalesPage = () => {
                         <TrendChartContainer />
                     </div>
                     <div className='downer segmentDivder'>
-                        {/* Prediction */}
+                        <PredictionSalesContainer />
                     </div>
                 </div>
                 <div className='right'>

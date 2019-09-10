@@ -1,6 +1,8 @@
 import React from 'react'
-import styles from './Prediction.module.css';
+import styles from './PredictionSales.module.css';
 import classNames from 'classnames/bind';
+import HighchartsReact from 'highcharts-react-official'
+import Highcharts from 'highcharts'
 
 import Card from 'components/common/Card';
 import Chart from 'components/common/Chart';
@@ -11,7 +13,7 @@ import * as utils from 'utils';
 
 const cx = classNames.bind(styles);
 
-const Prediction = ({ predictionData, predictionGridData }) => {
+const PredictionSales = ({ predictionChartData, predictionGridData }) => {
 
   const colStyle1 = { width: 'auto' };
   const colStyle2 = { width: '20%' };
@@ -53,11 +55,11 @@ const Prediction = ({ predictionData, predictionGridData }) => {
           </div>
         </div>
 				<div className="segmentBody">
-          <img src="resources/~mockup/Untitled-8.png" />
+          {/* <img src="resources/~mockup/Untitled-8.png" /> */}
 				</div>
       </div>
     </React.Fragment>
   )
 };
 
-export default Prediction
+export default PredictionSales

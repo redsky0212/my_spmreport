@@ -5,7 +5,8 @@ import {Switch, Route} from 'react-router-dom';
 import { TopContainer, SearchContainer, FooterContainer } from '../containers/layout';
 // router에 의해서 불러온 화면 page 컴포넌트 불러오기.
 import SalesPage from 'pages/SalesPage'
-import { MarketContainer } from '../containers/body';
+import MarketPage from 'pages/MarketPage'
+//import { MarketContainer } from '../containers/body';
 // Layout 컴포넌트 불러오기.
 import {LayoutWrapper, Navi} from './layout';  
 
@@ -18,7 +19,7 @@ const App = () => {
         <Navi />
         <Switch>
           <Route exact path="/" component={SalesPage} />
-          <Route exact path="/market" component={MarketContainer} />
+          <Route exact path="/market" component={MarketPage} />
         </Switch>
         <FooterContainer />
     </LayoutWrapper>
