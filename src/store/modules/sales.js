@@ -8,6 +8,7 @@ const initialState = Map({
     topCountData: Map({}),
     trendChartData:List([]),
     predictionData:Map({}),
+    typeStatisticsData:Map({}),
     customerChartData:Map([]),
     customerMapData: List([])
 });
@@ -16,6 +17,7 @@ const initialState = Map({
 const SET_TOP_COUNT = 'sales/SET_TOP_COUNT';
 const SET_TREND_CHART = 'sales/SET_TREND_CHART';
 const SET_PREDICTION = 'sales/SET_PREDICTION';
+const SET_TYPESTATISTICS = 'sales/SET_TYPESTATISTICS';
 const SET_CUSTOMER_CHART = 'sales/SET_CUSTOMER_CHART';
 const SET_CUSTOMER_MAP = 'sales/SET_CUSTOMER_MAP';
 
@@ -23,6 +25,7 @@ const SET_CUSTOMER_MAP = 'sales/SET_CUSTOMER_MAP';
 export const setTopCount = createAction(SET_TOP_COUNT, sales.getTopCount); // { org_d_code }
 export const setTrendChart = createAction(SET_TREND_CHART, sales.getTrendChart);    // {org_d_code, type, sale_type, nw_type }
 export const setPrediction = createAction(SET_PREDICTION, sales.getSalesprediction); // { org_d_code }
+export const setTypeChart = createAction(SET_TYPESTATISTICS, sales.getSalesTypeGraph); // {org_d_code, type, nw_type}
 export const setCustomerChart = createAction(SET_CUSTOMER_CHART, sales.getSalesCustomer);    // {org_d_code, type }
 export const setCustomerMap = createAction(SET_CUSTOMER_MAP, sales.getSalesCustomer);    // {org_d_code, type } 
 
@@ -50,6 +53,12 @@ export default handleActions({
         type: SET_PREDICTION,
         onSuccess: (state, action) => {
             return state.set('predictionData', fromJS(action.payload.data.salesPredictionData));
+        }
+    }),
+    ...pender({
+        type: SET_TYPESTATISTICS,
+        onSuccess: (state, action) => {
+            return state.set('typeStatisticsData', fromJS(action.payload.data.typeGraphData));
         }
     }),
     ...pender({
