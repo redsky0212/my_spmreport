@@ -23,7 +23,8 @@ class PredictionsSalesContainer extends Component {
 
         this.state = {
             predictionGridData: [],
-            predictionChartData: []
+            predictionChartData: [],
+            pred_qty: 0
         };
     }
 
@@ -40,9 +41,11 @@ class PredictionsSalesContainer extends Component {
         const _gridData = this.processPredictionGridData();
         //const { areaData, medianIdx, lineIdx } = this.setAreaData();
         const _chartData = this.setAreaData();
+        const _pred_qty = this.addComma(this.props.predictionData.toJS().salesPredictionData[0]['pred_qty'] || 0);
         this.setState({ 
             predictionGridData: _gridData,
-            predictionChartData: _chartData
+            predictionChartData: _chartData,
+            pred_qty: _pred_qty
         });
     };
 
@@ -138,12 +141,13 @@ class PredictionsSalesContainer extends Component {
 
     render() {
         console.log('- Call PredictionSalesContainer');
-        //const _pred_qty = this.addComma(this.props.predictionData.salesPredictionData[0]['pred_qty'] || 0);
+        
         return (
             <React.Fragment>
                 <PredictionSales 
                     predictionGridData={this.state.predictionGridData}
                     predictionChartData={this.state.predictionChartData}
+                    pred_qty={this.state.pred_qty}
                      />
             </React.Fragment>
         );

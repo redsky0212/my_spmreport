@@ -4740,6 +4740,8 @@ const getSalesTypeGraph = (param) => {
     //});
 };
 
+
+
 export {
     getTopCount,
     getTrendChart,
