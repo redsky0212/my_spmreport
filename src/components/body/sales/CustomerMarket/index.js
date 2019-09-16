@@ -52,7 +52,7 @@ const CustomerMarket = ({ customerDropdown, customerChartOption, customerMapData
                 <Card.HeaderRight
                     dropdown1={customerDropdown} />
             </Card.Header>
-            <RadarChart chartoption={customerChartOption} customerMapData={customerMapData} customerType={customerType}></RadarChart>
+            <RadarChart chartoption={customerChartOption} customerMapData={customerMapData} customerType={customerType} id="customerMarketMapDiv"></RadarChart>
         </Card>
     )
 };

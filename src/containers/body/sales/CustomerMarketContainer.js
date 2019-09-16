@@ -137,7 +137,7 @@ class CustomerMarketContainer extends Component {
         let _orgData = this.props.customerMapData.toJS();
 
         this.customerSelectType = type;
-
+debugger
         // 거소지
         this.setState({ customerMapData: _orgData });
 

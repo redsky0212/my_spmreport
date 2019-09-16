@@ -64,13 +64,15 @@ export default handleActions({
     ...pender({
         type: SET_CUSTOMER_CHART,
         onSuccess: (state, action) => {
-            return state.set('customerChartData', fromJS(action.payload.data.customerGraphData));
+            //return state.set('customerChartData', fromJS(action.payload.data.customerGraphData));
+            return state.set('customerChartData', fromJS(action.payload.data));
         }
     }),
     ...pender({
         type: SET_CUSTOMER_MAP,
         onSuccess: (state, action) => {
-            return state.set('customerMapData', fromJS(action.payload.data.customerGraphData));
+            //return state.set('customerMapData', fromJS(action.payload.data.customerGraphData));
+            return state.set('customerMapData', fromJS(action.payload.data));
         }
     }),
 
